@@ -12,8 +12,8 @@ import BlogItems from "@/components/blog/BlogItems.vue";
         <div class="content">我有一壶酒，足以慰风尘。尽倾江海里，赠饮天下人。</div>
       </div>
     </div>
+    <BlogItems/>
   </div>
-  <BlogItems/>
 </template>
 
 <style scoped>
@@ -27,6 +27,7 @@ import BlogItems from "@/components/blog/BlogItems.vue";
   align-items: center;
   justify-content: center;
   transition: .5s height;
+  margin-top: -60px;
 }
 
 .text {
