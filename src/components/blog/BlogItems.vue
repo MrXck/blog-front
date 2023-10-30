@@ -3,6 +3,7 @@ import {onMounted, reactive} from "vue";
 import request from "@/utils/request";
 import {GetBlogByPageURL} from "@/utils/Constant";
 import BlogItem from "@/components/blog/BlogItem.vue";
+import jpg from '@/assets/1.jpg'
 
 
 const blogList = reactive([])
@@ -244,7 +245,34 @@ onMounted(() => {
   <div class="post-content">
     <BlogItem v-for="(item, index) in blogList" :data="item" :index="index"/>
   </div>
-  <div class="myself"></div>
+  <div class="myself">
+    <div class="myself-info">
+      <div class="avatar">
+        <img :src="jpg" alt="">
+      </div>
+      <div class="myself-name">Xck</div>
+      <div class="info">
+        <div class="num">
+          <div class="num-title">文章</div>
+          <div class="number">22</div>
+        </div>
+        <div class="num">
+          <div class="num-title">标签</div>
+          <div class="number">22</div>
+        </div>
+        <div class="num">
+          <div class="num-title">分类</div>
+          <div class="number">22</div>
+        </div>
+      </div>
+      <div class="elsewhere">
+        <div class="elsewhere-title">其他网站</div>
+        <div class="elsewhere-link">
+          <a href="https://github.com/MrXck" target="_blank">Github</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -265,5 +293,56 @@ onMounted(() => {
   box-sizing: border-box;
   width: 26%;
   padding-left: 15px;
+}
+
+.myself-info {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--card-box-shadow);
+}
+
+.myself-info:hover {
+  box-shadow: var(--card-hover-box-shadow);
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+}
+
+.myself-name {
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  margin-top: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-around;
+  font-family: var(--font-family);
+}
+
+.num {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1
+}
+
+.number {
+  margin-top: 4px;
 }
 </style>

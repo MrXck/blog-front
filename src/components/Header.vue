@@ -40,6 +40,8 @@ to({name: 'index'})
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: rgba(133, 133, 133, 0.6) 0 5px 6px -5px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .left {
