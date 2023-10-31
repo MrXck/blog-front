@@ -10,6 +10,7 @@ const blogList = reactive([])
 const blogDateList = reactive([])
 
 function init() {
+  // todo 将写死的博客数据改为请求接口
   // request.get(GetBlogByPageURL).then(res => {
   //   console.log(res)
   // })
@@ -236,6 +237,7 @@ function init() {
 }
 
 onMounted(() => {
+  console.log(123)
   init()
 })
 </script>
@@ -244,6 +246,7 @@ onMounted(() => {
 <div class="layout">
   <div class="post-content">
     <BlogItem v-for="(item, index) in blogList" :data="item" :index="index"/>
+<!--    <BlogItem :data="blogList[0]" :index="0"/>-->
   </div>
   <div class="myself">
     <div class="myself-info">
@@ -278,7 +281,7 @@ onMounted(() => {
 
 <style scoped>
 .layout {
-  max-width: 1170px;
+  max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: 40px 15px;
   display: flex;
@@ -301,8 +304,11 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   border-radius: 8px;
-  background: #fff;
+  background-color: var(--background-color);
   box-shadow: var(--card-box-shadow);
+  font-family: var(--font-family);
+  color: var(--font-color);
+  transition: .3s all;
 }
 
 .myself-info:hover {
@@ -332,7 +338,6 @@ onMounted(() => {
   margin-bottom: 4px;
   display: flex;
   justify-content: space-around;
-  font-family: var(--font-family);
 }
 
 .num {
@@ -344,5 +349,12 @@ onMounted(() => {
 
 .number {
   margin-top: 4px;
+}
+
+.elsewhere {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10px;
 }
 </style>

@@ -7,3 +7,15 @@ export function to(path) {
 export function toNew(path) {
   window.open(router.resolve(path).href, '_blank')
 }
+
+export function toWithTransition(path) {
+  if (!document.startViewTransition) {
+    router.push(path)
+  } else {
+    document.startViewTransition(() => {
+      router.push(path)
+    })
+  }
+
+
+}

@@ -37,11 +37,13 @@ to({name: 'index'})
   align-items: center;
   justify-content: space-between;
   padding: 0 36px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 999;
   box-shadow: rgba(133, 133, 133, 0.6) 0 5px 6px -5px;
-  background: rgba(255, 255, 255, 0.8);
+  background-color: var(--header-background-color);
 }
 
 .left {

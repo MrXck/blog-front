@@ -1,5 +1,7 @@
 <script setup>
 import jpg from '@/assets/1.jpg'
+import {toWithTransition} from "@/utils/routerUtils";
+
 const {data, index} = defineProps({
   data: {
     type: Object,
@@ -10,26 +12,31 @@ const {data, index} = defineProps({
     required: true
   }
 })
+
+
 </script>
 
 <template>
   <div :class="[
     'blog',
     index !== 0 ? 'margin-top' : ''
-  ]">
-    <div class="blog-img">
-      <img :src="jpg" alt="">
+  ]" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}})">
+    <div class="blog-img" v-if="index % 2 === 0">
+      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};border-bottom-left-radius: 8px;border-top-left-radius: 8px;`">
     </div>
     <div class="blog-info">
-      <div class="blog-title">{{data.title}}</div>
+      <div class="blog-title">{{ data.title }}</div>
       <div class="blog-detail">
-        <div class="blog-time">创建于: {{data.create_time}}</div>
-        <div class="blog-time">更新于: {{data.create_time}}</div>
+        <div class="blog-time">创建于: {{ data.create_time }}</div>
+        <div class="blog-time">更新于: {{ data.create_time }}</div>
         <div class="blog-time">标签: xxx</div>
       </div>
       <div class="blog-content">
-        {{data.content}}
+        {{ data.content }}
       </div>
+    </div>
+    <div class="blog-img" :id="`blog-img-${data.id}`" v-if="index % 2 - 1 === 0">
+      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};border-bottom-right-radius: 8px;border-top-right-radius: 8px;`">
     </div>
   </div>
 </template>
@@ -39,8 +46,11 @@ const {data, index} = defineProps({
   display: flex;
   border-radius: 8px;
   box-shadow: var(--card-box-shadow);
-  overflow: hidden;
   height: 235px;
+  background-color: var(--background-color);
+  color: var(--font-color);
+  transition: .3s all;
+  overflow: hidden;
 }
 
 .blog:hover {
@@ -55,14 +65,33 @@ const {data, index} = defineProps({
   width: 42%;
   height: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .blog-img img {
+  //height: 100%;
+  width: 100%;
+  transition: 0.5s all;
+  filter: var(--filter);
+  object-fit: cover;
+}
+
+.blog-img img::view-transition-old {
+  object-fit: cover;
+  animation: none;
+  mix-blend-mode: normal;
   height: 100%;
   width: 100%;
-  border-bottom-left-radius: 8px;
-  border-top-left-radius: 8px;
-  transition: 0.5s all;
+  overflow: hidden;
+}
+
+.blog-img img::view-transition-new {
+  object-fit: cover;
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 .margin-top {
