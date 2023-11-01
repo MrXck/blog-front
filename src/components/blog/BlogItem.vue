@@ -20,7 +20,7 @@ const {data, index} = defineProps({
   <div :class="[
     'blog',
     index !== 0 ? 'margin-top' : ''
-  ]" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}})">
+  ]" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}, position: { x: 0, y: 0 }})">
     <div class="blog-img" v-if="index % 2 === 0">
       <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};border-bottom-left-radius: 8px;border-top-left-radius: 8px;`">
     </div>
@@ -110,6 +110,7 @@ const {data, index} = defineProps({
 
 .blog-title {
   font-size: 22px;
+  cursor: pointer;
 }
 
 .blog-detail {

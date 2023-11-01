@@ -1,8 +1,5 @@
 <script setup>
-import jpg from '@/assets/1.jpg'
-import {useRoute} from "vue-router"
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue"
-import {Viewer} from '@bytemd/vue-next'
+import {Editor} from '@bytemd/vue-next'
 import gfm from '@bytemd/plugin-gfm'
 import gemoji from '@bytemd/plugin-gemoji'
 import highlight from '@bytemd/plugin-highlight'
@@ -13,9 +10,8 @@ import zhHans from 'bytemd/locales/zh_Hans.json'
 import 'bytemd/dist/index.css'
 import 'juejin-markdown-themes/dist/juejin.min.css'
 import 'highlight.js/styles/vs.css'
-import {getProcessor} from "bytemd"
-import MyInfo from "@/components/MyInfo.vue";
-
+import {ref} from "vue";
+import {useRoute} from "vue-router";
 
 const plugins = [
   gfm(),
@@ -25,6 +21,7 @@ const plugins = [
   mediumZoom(),
   breaks(),
 ]
+
 const resp = {
   "code": 0, "data": {
     "blog": {
@@ -44,239 +41,34 @@ const resp = {
 
 const title = ref(`${resp.data.blog.title}`)
 const content = ref(`${resp.data.blog.content}`)
-const tagList = reactive([])
-const h = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
-const route = useRoute()
-const id = route.query.id
-const viewer = ref(null)
-const directoryBody = ref(null)
-const itemIndex = ref(0)
-let height = 0
+// const route = useRoute()
+// const id = route.query.id
 
-const getCataLogData = () => {
-  getProcessor({
-    plugins: [
-      {
-        rehype: p =>
-            p.use(() => tree => {
-              tagList.length = 0
-              if (tree && tree.children.length) {
-                tree.children.filter(v => {
-                  v.indentation = h.indexOf(v.tagName?.toUpperCase())
-                  return v.type === 'element' && v.indentation !== -1 && v.children.length > 0
-                }).forEach((node, index) => {
-                  const offsetTop = document.getElementById(`id-${index}`).offsetTop
-                  tagList.push({
-                    id: `#id-${index}`,
-                    text: node.children[0].value,
-                    indentation: node.indentation,
-                    offsetTop,
-                    top: 29 * index
-                  })
-                })
-              }
-            }),
-      },
-    ],
-  }).processSync(content.value)
+
+function handleUploadFile(e) {
+
 }
 
-
-function setTitleId() {
-  const children = viewer.value.markdownBody.children
-  let index = 0
-  tagList.length = 0
-  for (let i = 0; i < children.length; i++) {
-    if (h.indexOf(children[i].tagName) !== -1) {
-      children[i].id = `id-${index}`
-      index += 1
-    }
-  }
+function handleChange(val) {
+  content.value = val
 }
 
-function scroll(e) {
-  const scrollTop = document.documentElement.scrollTop
-  for (let i = 0; i < tagList.length; i++) {
-    if (scrollTop > tagList[i].offsetTop) {
-      itemIndex.value = i
-      if (tagList[i].top > height / 2) {
-        scrollDirector(tagList[i].top - height / 2 + 29)
-      } else {
-        scrollDirector(0)
-      }
-    }
-  }
-}
-
-function scrollDirector(offsetTop) {
-  directoryBody.value.scroll({
-    top: offsetTop,
-  })
-}
-
-function scrollTitle(offsetTop) {
-  document.documentElement.scroll({
-    top: offsetTop
-  })
-}
-
-onMounted(() => {
-  height = directoryBody.value.getBoundingClientRect().height
-  if (route.hash === '') {
-    window.scroll({
-      top: 0,
-      behavior: 'instant'
-    })
-  }
-  setTitleId()
-  getCataLogData()
-
-  window.addEventListener('scroll', scroll)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', scroll)
-})
 </script>
 
 <template>
-  <div class="container">
-    <div class="background-image">
-      <img :src="jpg" alt="" :style="`view-transition-name: pic-${id};`">
-    </div>
-    <div class="content">
-      <div class="layout">
-        <div class="blog">
-          <h2 class="blog-title">{{ title }}</h2>
-          <Viewer ref="viewer" :locale="zhHans" :value="content" :plugins="plugins"/>
-        </div>
-        <div class="myself">
-          <MyInfo/>
-          <div class="directory">
-            <div class="directory-title">目录</div>
-            <div class="directory-body" ref="directoryBody">
-              <div @click="scrollTitle(item.offsetTop)" :class="[
-                  'directory-item',
-                  itemIndex === index ? 'active' : ''
-              ]" v-for="(item, index) in tagList"
-                 :style="`--indentation: ${item.indentation}`">{{ item.text }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="editor">
+    <Editor :locale="zhHans" :upload-images="handleUploadFile" :value="content" :plugins="plugins" @change="handleChange"/>
   </div>
 </template>
 
 <style scoped>
-.container {
-  position: relative;
-  width: calc(100vw - 17px);
-  min-height: 100vh;
-  z-index: 888;
+.editor {
+  margin-top: 80px;
+  height: calc(100vh);
 }
 
-.background-image {
-  position: absolute;
-}
-
-.background-image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  z-index: -1;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.content {
-  z-index: 999;
-  position: relative;
-}
-
-.layout {
-  max-width: var(--layout-max-width);
-  margin: 0 auto;
-  padding: 40px 15px;
-  display: flex;
-  margin-top: 60px;
-}
-
-.layout .blog {
-  width: 74%;
-  box-sizing: border-box;
-  background-color: var(--background-color);
-  box-shadow: var(--card-box-shadow);
-  border-radius: 8px;
-  padding: 50px 40px;
-  transition: .3s all;
-}
-
-.blog:hover {
-  box-shadow: var(--card-hover-box-shadow);
-}
-
-.layout .myself {
-  box-sizing: border-box;
-  width: 26%;
-  padding-left: 15px;
-}
-
-.directory {
-  position: sticky;
-  top: 80px;
-  background-color: var(--background-color);
-  color: var(--font-color);
-  margin-top: 20px;
-  box-shadow: var(--card-box-shadow);
-  border-radius: 8px;
-  transition: .3s all;
-}
-
-.directory:hover {
-  box-shadow: var(--card-hover-box-shadow);
-}
-
-.active {
-  color: #1e80ff !important;
-}
-
-.directory-title {
-  margin: 0 20px;
-  border-bottom: 1px solid #e4e6eb;
-  height: 57px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.directory-body {
-  height: calc(300px);
-  overflow: auto;
-  padding: 10px 0;
-}
-
-.directory-item {
-  padding: 4px 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
-  display: block;
-  padding-left: calc(20px + var(--indentation) * 20px);
-}
-
-.directory-item:hover {
-  color: #1e80ff;
-}
-
-.blog-title {
-  text-align: center;
+:deep(.bytemd) {
+  margin-top: 80px;
+  height: calc(100vh - 80px);
 }
 </style>

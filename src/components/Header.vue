@@ -1,7 +1,5 @@
 <script setup>
-import {to} from "@/utils/routerUtils";
 
-to({name: 'index'})
 </script>
 
 <template>
