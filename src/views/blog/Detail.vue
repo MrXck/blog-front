@@ -1,7 +1,7 @@
 <script setup>
 import jpg from '@/assets/1.jpg'
 import {useRoute} from "vue-router"
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue"
+import {onMounted, reactive, ref} from "vue"
 import {Viewer} from '@bytemd/vue-next'
 import gfm from '@bytemd/plugin-gfm'
 import gemoji from '@bytemd/plugin-gemoji'
@@ -15,6 +15,7 @@ import 'juejin-markdown-themes/dist/juejin.min.css'
 import 'highlight.js/styles/vs.css'
 import {getProcessor} from "bytemd"
 import MyInfo from "@/components/MyInfo.vue";
+import Directory from "@/components/Directory.vue";
 
 
 const plugins = [
@@ -49,9 +50,7 @@ const h = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
 const route = useRoute()
 const id = route.query.id
 const viewer = ref(null)
-const directoryBody = ref(null)
-const itemIndex = ref(0)
-let height = 0
+
 
 const getCataLogData = () => {
   getProcessor({
@@ -94,34 +93,7 @@ function setTitleId() {
   }
 }
 
-function scroll(e) {
-  const scrollTop = document.documentElement.scrollTop
-  for (let i = 0; i < tagList.length; i++) {
-    if (scrollTop > tagList[i].offsetTop) {
-      itemIndex.value = i
-      if (tagList[i].top > height / 2) {
-        scrollDirector(tagList[i].top - height / 2 + 29)
-      } else {
-        scrollDirector(0)
-      }
-    }
-  }
-}
-
-function scrollDirector(offsetTop) {
-  directoryBody.value.scroll({
-    top: offsetTop,
-  })
-}
-
-function scrollTitle(offsetTop) {
-  document.documentElement.scroll({
-    top: offsetTop
-  })
-}
-
 onMounted(() => {
-  height = directoryBody.value.getBoundingClientRect().height
   if (route.hash === '') {
     window.scroll({
       top: 0,
@@ -130,13 +102,8 @@ onMounted(() => {
   }
   setTitleId()
   getCataLogData()
-
-  window.addEventListener('scroll', scroll)
 })
 
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', scroll)
-})
 </script>
 
 <template>
@@ -152,17 +119,7 @@ onBeforeUnmount(() => {
         </div>
         <div class="myself">
           <MyInfo/>
-          <div class="directory">
-            <div class="directory-title">目录</div>
-            <div class="directory-body" ref="directoryBody">
-              <div @click="scrollTitle(item.offsetTop)" :class="[
-                  'directory-item',
-                  itemIndex === index ? 'active' : ''
-              ]" v-for="(item, index) in tagList"
-                 :style="`--indentation: ${item.indentation}`">{{ item.text }}
-              </div>
-            </div>
-          </div>
+          <Directory :tag-list="tagList"/>
         </div>
       </div>
     </div>
@@ -224,56 +181,6 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   width: 26%;
   padding-left: 15px;
-}
-
-.directory {
-  position: sticky;
-  top: 80px;
-  background-color: var(--background-color);
-  color: var(--font-color);
-  margin-top: 20px;
-  box-shadow: var(--card-box-shadow);
-  border-radius: 8px;
-  transition: .3s all;
-}
-
-.directory:hover {
-  box-shadow: var(--card-hover-box-shadow);
-}
-
-.active {
-  color: #1e80ff !important;
-}
-
-.directory-title {
-  margin: 0 20px;
-  border-bottom: 1px solid #e4e6eb;
-  height: 57px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.directory-body {
-  height: calc(300px);
-  overflow: auto;
-  padding: 10px 0;
-}
-
-.directory-item {
-  padding: 4px 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
-  display: block;
-  padding-left: calc(20px + var(--indentation) * 20px);
-}
-
-.directory-item:hover {
-  color: #1e80ff;
 }
 
 .blog-title {
