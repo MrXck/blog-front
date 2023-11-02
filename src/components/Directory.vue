@@ -31,9 +31,10 @@ function scrollDirector(offsetTop) {
   })
 }
 
-function scrollTitle(offsetTop) {
+function scrollTitle(item) {
+  location.hash = item.id
   document.documentElement.scroll({
-    top: offsetTop
+    top: item.offsetTop
   })
 }
 
@@ -52,7 +53,7 @@ onBeforeUnmount(() => {
   <div class="directory">
     <div class="directory-title">目录</div>
     <div class="directory-body" ref="directoryBody">
-      <div @click="scrollTitle(item.offsetTop)" :class="[
+      <div @click="scrollTitle(item)" :class="[
                   'directory-item',
                   itemIndex === index ? 'active' : ''
               ]" v-for="(item, index) in tagList"
@@ -68,7 +69,7 @@ onBeforeUnmount(() => {
   top: 80px;
   background-color: var(--background-color);
   color: var(--font-color);
-  margin-top: 20px;
+  margin-bottom: 20px;
   box-shadow: var(--card-box-shadow);
   border-radius: 8px;
   transition: .3s all;
@@ -79,7 +80,7 @@ onBeforeUnmount(() => {
 }
 
 .active {
-  color: #1e80ff !important;
+  color: var(--active-font-color) !important;
 }
 
 .directory-title {
@@ -110,6 +111,6 @@ onBeforeUnmount(() => {
 }
 
 .directory-item:hover {
-  color: #1e80ff;
+  color: var(--active-font-color);
 }
 </style>

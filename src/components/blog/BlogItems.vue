@@ -5,6 +5,8 @@ import {GetBlogByPageURL} from "@/utils/Constant";
 import BlogItem from "@/components/blog/BlogItem.vue";
 import jpg from '@/assets/1.jpg'
 import MyInfo from "@/components/MyInfo.vue";
+import ArchivesList from "@/components/ArchivesList.vue";
+import Classification from "@/components/Classification.vue";
 
 
 const blogList = reactive([])
@@ -249,11 +251,30 @@ onMounted(() => {
   </div>
   <div class="myself">
     <MyInfo/>
+    <ArchivesList/>
+    <Classification/>
   </div>
 </div>
 </template>
 
 <style scoped>
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .post-content {
+    width: 100%!important;
+  }
+
+  .myself {
+    width: 100%!important;
+    padding-left: 0!important;
+    margin-top: 20px;
+  }
+}
+
 .layout {
   max-width: var(--layout-max-width);
   margin: 0 auto;

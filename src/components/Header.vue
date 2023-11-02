@@ -1,10 +1,13 @@
 <script setup>
+import {to} from '@/utils/routerUtils'
+import {useMainStore} from "@/store";
 
+const main = useMainStore()
 </script>
 
 <template>
 <div class="nav">
-  <div class="left">
+  <div class="left" @click="to({name: 'home'})">
     Xck
   </div>
   <div class="right">
@@ -12,7 +15,7 @@
       <span>搜索</span>
       <div class="line"></div>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" @click="to({name: 'archives'})">
       <span>归档</span>
       <div class="line"></div>
     </div>
@@ -23,6 +26,10 @@
     <div class="nav-item">
       <span>分类</span>
       <div class="line"></div>
+    </div>
+    <div class="nav-item">
+      <span v-show="main.theme === 'dark'" @click="main.theme = 'light'">亮</span>
+      <span v-show="main.theme === 'light'" @click="main.theme = 'dark'">暗</span>
     </div>
   </div>
 </div>

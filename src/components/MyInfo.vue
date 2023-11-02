@@ -44,6 +44,7 @@ import jpg from "@/assets/1.jpg";
   font-family: var(--font-family);
   color: var(--font-color);
   transition: .3s all;
+  margin-bottom: 20px;
 }
 
 .myself-info:hover {

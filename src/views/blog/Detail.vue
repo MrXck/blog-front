@@ -11,8 +11,7 @@ import mediumZoom from '@bytemd/plugin-medium-zoom'
 import breaks from '@bytemd/plugin-breaks'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import 'bytemd/dist/index.css'
-import 'juejin-markdown-themes/dist/juejin.min.css'
-import 'highlight.js/styles/vs.css'
+import 'highlight.js/styles/tokyo-night-dark.min.css'
 import {getProcessor} from "bytemd"
 import MyInfo from "@/components/MyInfo.vue";
 import Directory from "@/components/Directory.vue";
@@ -99,6 +98,13 @@ onMounted(() => {
       top: 0,
       behavior: 'instant'
     })
+  } else {
+    setTimeout(() => {
+      window.scroll({
+        top: document.querySelector(route.hash).offsetTop,
+        behavior: 'smooth'
+      })
+    }, 10)
   }
   setTitleId()
   getCataLogData()
@@ -127,6 +133,23 @@ onMounted(() => {
 </template>
 
 <style scoped>
+@media (max-width: 768px) {
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .myself {
+    width: 100%!important;
+    padding-left: 0!important;
+    margin-top: 20px;
+  }
+
+  .blog {
+    width: 100%!important;
+  }
+}
+
 .container {
   position: relative;
   width: calc(100vw - 17px);
@@ -185,5 +208,48 @@ onMounted(() => {
 
 .blog-title {
   text-align: center;
+  color: var(--font-color);
+}
+
+:deep(.markdown-body) {
+  color: var(--font-color);
+}
+
+:deep(.markdown-body h1) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ececec;
+}
+
+:deep(.markdown-body h2) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ececec;
+}
+
+:deep(.markdown-body h3) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+}
+
+:deep(.markdown-body h4) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+}
+
+:deep(.markdown-body h5) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+}
+
+:deep(.markdown-body h6) {
+  padding-bottom: 12px;
+  margin-top: 35px;
+  margin-bottom: 10px;
 }
 </style>

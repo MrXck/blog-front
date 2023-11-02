@@ -1,5 +1,5 @@
 <template>
-  <Config :theme="theme">
+  <Config :theme="main.theme">
     <router-view/>
   </Config>
 </template>
@@ -12,8 +12,7 @@
 </style>
 <script setup>
 import Config from "@/components/Config.vue";
-import {ref} from "vue";
+import {useMainStore} from "@/store";
 
-const theme = ref('light')
-
+const main = useMainStore();
 </script>

@@ -1,6 +1,7 @@
 <script setup>
 import jpg from '@/assets/1.jpg'
 import {toWithTransition} from "@/utils/routerUtils";
+import {computed, onMounted, ref} from "vue";
 
 const {data, index} = defineProps({
   data: {
@@ -13,6 +14,14 @@ const {data, index} = defineProps({
   }
 })
 
+let windowWidth = ref(window.innerWidth > 768)
+
+
+onMounted(() => {
+  window.addEventListener('resize', (e) => {
+    windowWidth.value = window.innerWidth > 768
+  })
+})
 
 </script>
 
@@ -21,8 +30,8 @@ const {data, index} = defineProps({
     'blog',
     index !== 0 ? 'margin-top' : ''
   ]" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}, position: { x: 0, y: 0 }})">
-    <div class="blog-img" v-if="index % 2 === 0">
-      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};border-bottom-left-radius: 8px;border-top-left-radius: 8px;`">
+    <div class="blog-img" v-show="!windowWidth || index % 2 === 0">
+      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};`">
     </div>
     <div class="blog-info">
       <div class="blog-title">{{ data.title }}</div>
@@ -35,13 +44,37 @@ const {data, index} = defineProps({
         {{ data.content }}
       </div>
     </div>
-    <div class="blog-img" :id="`blog-img-${data.id}`" v-if="index % 2 - 1 === 0">
-      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};border-bottom-right-radius: 8px;border-top-right-radius: 8px;`">
+    <div class="blog-img" :id="`blog-img-${data.id}`" v-show="windowWidth && index % 2 - 1 === 0">
+      <img :src="jpg" alt="" :style="`view-transition-name: pic-${data.id};`">
     </div>
   </div>
 </template>
 
 <style scoped>
+@media (max-width: 768px) {
+
+  .blog {
+    flex-direction: column;
+    height: 420px !important;
+    padding-bottom: 20px;
+  }
+
+  .blog-img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .blog-img img {
+    width: 100% !important;
+  }
+
+  .blog-info {
+    width: 100% !important;
+    margin-top: 10px;
+  }
+
+}
+
 .blog {
   display: flex;
   border-radius: 8px;
@@ -69,9 +102,8 @@ const {data, index} = defineProps({
 }
 
 .blog-img img {
-  //height: 100%;
-  width: 100%;
-  transition: 0.5s all;
+  height: 100%;
+//width: 100%; transition: 0.5s all;
   filter: var(--filter);
   object-fit: cover;
 }

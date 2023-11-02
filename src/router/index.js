@@ -34,6 +34,14 @@ const routes = [
                 },
                 component: () => import('../views/blog/UpdateOrAdd'),
             },
+            {
+                path: 'archives',
+                name: 'archives',
+                meta: {
+                    title: '博客归档'
+                },
+                component: () => import('../views/archives/Archives'),
+            },
         ]
     },
 ]

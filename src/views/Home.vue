@@ -24,6 +24,7 @@ import BlogItems from "@/components/blog/BlogItems.vue";
   align-items: center;
   justify-content: center;
   transition: .5s height;
+  filter: var(--filter);
 }
 
 .text {

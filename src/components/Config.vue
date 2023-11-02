@@ -29,6 +29,11 @@ defineProps({
   --background-color: #121212;
   --filter: brightness(0.7);
   --header-background-color: rgba(18, 18, 18, 0.8);
+  --active-font-color: #1e80ff;
+}
+
+.dark img {
+  filter: brightness(0.7);
 }
 
 .light {
@@ -36,6 +41,7 @@ defineProps({
   --background-color: #fff;
   --filter: brightness(1);
   --header-background-color: rgba(255, 255, 255, 0.8);
+  --active-font-color: #1e80ff;
 }
 
 </style>
