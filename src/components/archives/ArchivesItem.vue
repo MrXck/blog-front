@@ -1,5 +1,4 @@
 <script setup>
-
 import jpg from "@/assets/1.jpg";
 </script>
 
@@ -48,6 +47,7 @@ import jpg from "@/assets/1.jpg";
 
 .archives-sort-item-img {
   height: 100%;
+  overflow: hidden;
 }
 
 .archives-sort-item-img img {
