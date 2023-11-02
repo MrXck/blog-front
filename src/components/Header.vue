@@ -19,11 +19,11 @@ const main = useMainStore()
       <span>归档</span>
       <div class="line"></div>
     </div>
-    <div class="nav-item">
-      <span>标签</span>
-      <div class="line"></div>
-    </div>
-    <div class="nav-item">
+<!--    <div class="nav-item">-->
+<!--      <span>标签</span>-->
+<!--      <div class="line"></div>-->
+<!--    </div>-->
+    <div class="nav-item" @click="to({name: 'categories'})">
       <span>分类</span>
       <div class="line"></div>
     </div>
