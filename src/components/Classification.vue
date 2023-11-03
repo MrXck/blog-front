@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, reactive} from "vue";
 import {getAllBlogType} from "@/api/blogTypeApi";
+import {to} from "@/utils/routerUtils";
 
 const list = reactive([])
 
@@ -25,7 +26,7 @@ onMounted(() => {
       <div class="classification-header-right">&gt;</div>
     </div>
     <div class="classification-body">
-      <div class="classification-body-item" v-for="(item, index) in list">
+      <div class="classification-body-item" @click="to({name: 'home', query: {id: item.id}})" v-for="(item, index) in list">
         <div class="classification-body-item-time">{{item.name}}</div>
         <div class="classification-body-item-num">{{item.num}}</div>
       </div>

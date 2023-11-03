@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue";
+import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import request from "@/utils/request";
 import {GetBlogByPageURL} from "@/utils/Constant";
 import BlogItem from "@/components/blog/BlogItem.vue";
@@ -8,14 +8,27 @@ import MyInfo from "@/components/MyInfo.vue";
 import ArchivesList from "@/components/ArchivesList.vue";
 import Classification from "@/components/Classification.vue";
 import {getBlogByPage} from "@/api/blogApi";
+import {useRoute} from "vue-router";
 
 
 const blogList = reactive([])
+const route = useRoute()
 const pageSize = 10
 const pageNum = 1
 let isFinished = false
 let isLoading = false
 const blogContainer = ref(null)
+
+watch(() => route.query, () => {
+  blogList.length = 0
+  isFinished = false
+  isLoading = false
+  init()
+  document.documentElement.scroll({
+    top: 0,
+    behavior: 'smooth'
+  })
+})
 
 function init() {
   if (isFinished || isLoading) return
@@ -28,6 +41,11 @@ function init() {
   if (blogList.length > 0) {
     data.blogId = blogList[blogList.length - 1].id
   }
+
+  if (route.query.id !== null && route.query.id !== undefined && route.query.id !== '') {
+    data.typeId = route.query.id
+  }
+
   getBlogByPage(data).then(res => {
     if (res.code === 0) {
       blogList.push(...res.data.page.records)

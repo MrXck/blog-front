@@ -11,7 +11,7 @@ const {data} = defineProps({
 
 <template>
   <div class="categories-item">
-    <div class="text" @click="to({name: '', query: {id: data.id}})">{{ data.name }}</div>
+    <div class="text" @click="to({name: 'home', query: {id: data.id}})">{{ data.name }}</div>
     <div class="num">({{ data.num }})</div>
   </div>
 </template>
