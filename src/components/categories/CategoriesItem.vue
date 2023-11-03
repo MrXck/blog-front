@@ -1,12 +1,20 @@
 <script setup>
 
+import {to} from "@/utils/routerUtils";
+
+const {data} = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
-<div class="categories-item">
-  <div class="text">231321</div>
-  <div class="num">(111)</div>
-</div>
+  <div class="categories-item">
+    <div class="text" @click="to({name: '', query: {id: data.id}})">{{ data.name }}</div>
+    <div class="num">({{ data.num }})</div>
+  </div>
 </template>
 
 <style scoped>
