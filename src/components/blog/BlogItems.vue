@@ -31,7 +31,7 @@ function init() {
   getBlogByPage(data).then(res => {
     if (res.code === 0) {
       blogList.push(...res.data.page.records)
-      if (res.data.page.records.length < pageSize) {
+      if (res.data.page.records.length !== pageSize) {
         isFinished = true
       }
     }
@@ -46,13 +46,9 @@ function scrollLoad() {
   const scrollTop = document.documentElement.scrollTop
   const offsetTop = blog.offsetTop
   const screenHeight = document.documentElement.clientHeight
-
-  console.log(scrollTop, screenHeight, offsetTop, height, scrollTop + screenHeight - offsetTop - height)
-
-  if (scrollTop + screenHeight - offsetTop - height > 50) {
+  if (scrollTop + screenHeight - offsetTop - height > 30) {
     init()
   }
-
 }
 
 onMounted(() => {
