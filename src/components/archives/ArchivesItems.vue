@@ -1,6 +1,6 @@
 <script setup>
 import ArchivesItem from "@/components/archives/ArchivesItem.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {getArchives} from "@/api/blogArchivesApi";
 import {useRoute} from "vue-router";
 
@@ -12,8 +12,11 @@ const length = ref(0)
 const keys = ref([])
 
 
-function init() {
+watch(() => route.query, () => {
+  init()
+})
 
+function init() {
   const data = {}
 
   if (route.query.time !== '' && route.query.time !== null && route.query.time !== undefined) {
@@ -22,6 +25,7 @@ function init() {
 
   getArchives(data).then(res => {
     if (res.code === 0) {
+      archives.value = {}
       length.value = res.data.blogs.length
       res.data.blogs.forEach(item => {
         const year = item.createTime.split('-')[0]
@@ -40,8 +44,6 @@ function init() {
 
 onMounted(() => {
   init()
-
-
 })
 </script>
 

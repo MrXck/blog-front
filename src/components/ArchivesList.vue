@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, reactive} from "vue";
 import {getAllArchives} from "@/api/blogArchivesApi";
+import {to} from "@/utils/routerUtils";
 
 const list = reactive([])
 
@@ -25,7 +26,7 @@ onMounted(() => {
     <div class="archives-header-right">&gt;</div>
   </div>
   <div class="archives-body">
-    <div class="archives-body-item" v-for="(item, index) in list">
+    <div class="archives-body-item" @click="to({name: 'archives', query: {time: item.date.replace('年', '-').replace('月', '')}})" v-for="(item, index) in list">
       <div class="archives-body-item-time">{{item.date}}</div>
       <div class="archives-body-item-num">{{item.count}}</div>
     </div>
