@@ -16,6 +16,4 @@ export function toWithTransition(path) {
       router.push(path)
     })
   }
-
-
 }

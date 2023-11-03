@@ -1,13 +1,57 @@
 <script setup>
-
 import ArchivesItem from "@/components/archives/ArchivesItem.vue";
+import {onMounted, ref} from "vue";
+import {getArchives} from "@/api/blogArchivesApi";
+import {useRoute} from "vue-router";
+
+
+const route = useRoute()
+
+const archives = ref({})
+const length = ref(0)
+const keys = ref([])
+
+
+function init() {
+
+  const data = {}
+
+  if (route.query.time !== '' && route.query.time !== null && route.query.time !== undefined) {
+    data.time = route.query.time
+  }
+
+  getArchives(data).then(res => {
+    if (res.code === 0) {
+      length.value = res.data.blogs.length
+      res.data.blogs.forEach(item => {
+        const year = item.createTime.split('-')[0]
+        item.createTime = item.createTime.split('T')[0]
+        item.updateTime = item.updateTime.split('T')[0]
+        if (!archives.value[year]) {
+          archives.value[year] = [item]
+        } else {
+          archives.value[year].push(item)
+        }
+      })
+      keys.value = Object.keys(archives.value).sort((a, b) => b - a)
+    }
+  })
+}
+
+onMounted(() => {
+  init()
+
+
+})
 </script>
 
 <template>
-  <div class="archives-title">文章总览 - 17</div>
+  <div class="archives-title">文章总览 - {{ length }}</div>
   <div class="archives-sort">
-    <div class="archives-sort-item year">2023</div>
-    <ArchivesItem/>
+    <div v-for="item in keys">
+      <div class="archives-sort-item year">{{ item }}</div>
+      <ArchivesItem v-for="data in archives[item]" :data="data"/>
+    </div>
   </div>
 </template>
 

@@ -1,18 +1,26 @@
 <script setup>
 import jpg from "@/assets/1.jpg";
+import {toWithTransition} from "@/utils/routerUtils";
+
+const {data} = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
   <div class="archives-sort-item">
-    <div class="archives-sort-item-img">
-      <img :src="jpg" alt="">
+    <div class="archives-sort-item-img" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}})">
+      <img :src="data.image === null || data.image === '' ? jpg : data.image" alt="" :style="`view-transition-name: pic-${data.id};`">
     </div>
     <div class="archives-sort-item-detail">
       <div class="blog-time">
-        <div class="time">231321</div>
-        <div class="time">231321</div>
+        <div class="time">{{ data.createTime }}</div>
+        <div class="time">{{ data.updateTime }}</div>
       </div>
-      <div class="blog-title">231321</div>
+      <div class="blog-title" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}})">{{ data.title }}</div>
     </div>
   </div>
 </template>
@@ -46,15 +54,34 @@ import jpg from "@/assets/1.jpg";
 }
 
 .archives-sort-item-img {
-  height: 100%;
+  height: 80px;
+  width: 80px;
   overflow: hidden;
 }
 
 .archives-sort-item-img img {
   height: 100%;
-  width: 80px;
   cursor: pointer;
   transition: .3s all;
+  margin-left: calc(-45%);
+}
+
+.archives-sort-item-img img::view-transition-old {
+  object-fit: cover;
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.archives-sort-item-img img::view-transition-new {
+  object-fit: cover;
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 .archives-sort-item-img img:hover {

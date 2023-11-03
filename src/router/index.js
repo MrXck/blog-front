@@ -74,13 +74,17 @@ router.beforeEach((to, from, next) => {
             })
         }
     }
-    if (document.startViewTransition && from.name === 'blog-detail' && to.name === 'home') {
-        document.startViewTransition(() => {
-            next()
-        })
-    } else {
+    // if (document.startViewTransition && from.name === 'blog-detail' && to.name === 'home') {
+    //     // document.documentElement.style.viewTransitionName = `pic-${from.query.id}`
+    //     document.startViewTransition(() => {
+    //         // document.documentElement.style.viewTransitionName = ''
+    //         next()
+    //     }).finished.finally(() => {
+    //         // document.documentElement.style.removeProperty('view-transition-name')
+    //     })
+    // } else {
         next()
-    }
+    // }
 })
 
 router.afterEach((to, from) => {

@@ -1,32 +1,21 @@
 <script setup>
-import {reactive} from "vue";
+import {onMounted, reactive} from "vue";
+import {getAllArchives} from "@/api/blogArchivesApi";
 
-const list = reactive([
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-])
+const list = reactive([])
+
+function init() {
+  getAllArchives({}).then(res => {
+    if (res.code === 0) {
+      list.length = 0
+      list.push(...res.data)
+    }
+  })
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <template>
@@ -37,7 +26,7 @@ const list = reactive([
   </div>
   <div class="archives-body">
     <div class="archives-body-item" v-for="(item, index) in list">
-      <div class="archives-body-item-time">{{item.time}}</div>
+      <div class="archives-body-item-time">{{item.date}}</div>
       <div class="archives-body-item-num">{{item.count}}</div>
     </div>
   </div>

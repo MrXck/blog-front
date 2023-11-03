@@ -44,7 +44,6 @@ function init() {
       image.value = res.data.blog.image
       setTimeout(() => {
         setTitleId()
-        getCataLogData()
       }, 1000)
     }
   })
@@ -81,6 +80,8 @@ const getCataLogData = () => {
 
 
 function setTitleId() {
+  if (!viewer.value) return
+
   const children = viewer.value.markdownBody.children
   let index = 0
   tagList.length = 0
@@ -90,6 +91,7 @@ function setTitleId() {
       index += 1
     }
   }
+  getCataLogData()
 }
 
 onMounted(() => {

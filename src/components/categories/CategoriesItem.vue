@@ -1,5 +1,4 @@
 <script setup>
-
 import {to} from "@/utils/routerUtils";
 
 const {data} = defineProps({

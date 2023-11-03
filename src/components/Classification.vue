@@ -1,32 +1,21 @@
 <script setup>
-import {reactive} from "vue";
+import {onMounted, reactive} from "vue";
+import {getAllBlogType} from "@/api/blogTypeApi";
 
-const list = reactive([
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-  {
-    time: '2023年10月',
-    count: 33
-  },
-])
+const list = reactive([])
+
+function init() {
+  getAllBlogType().then(res => {
+    if (res.code === 0) {
+      list.length = 0
+      list.push(...res.data.blogTypes)
+    }
+  })
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <template>
@@ -37,8 +26,8 @@ const list = reactive([
     </div>
     <div class="classification-body">
       <div class="classification-body-item" v-for="(item, index) in list">
-        <div class="classification-body-item-time">{{item.time}}</div>
-        <div class="classification-body-item-num">{{item.count}}</div>
+        <div class="classification-body-item-time">{{item.name}}</div>
+        <div class="classification-body-item-num">{{item.num}}</div>
       </div>
     </div>
   </div>
