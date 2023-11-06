@@ -1,8 +1,26 @@
 <script setup>
 import {to} from '@/utils/routerUtils'
 import {useMainStore} from "@/store";
+import {onMounted} from "vue";
 
 const main = useMainStore()
+
+function switchTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.style.backgroundImage = 'linear-gradient(-225deg, #237777 0%, #43107a 29%, #c92c61 100%)'
+  } else {
+    document.documentElement.style.backgroundImage = 'linear-gradient(black, black, black, black, black)'
+  }
+  main.theme = theme
+}
+
+onMounted(() => {
+  if (main.theme === 'light') {
+    document.documentElement.style.backgroundImage = 'linear-gradient(-225deg, #237777 0%, #43107a 29%, #c92c61 100%)'
+  } else {
+    document.documentElement.style.backgroundImage = 'linear-gradient(black, black, black, black, black)'
+  }
+})
 </script>
 
 <template>
@@ -28,8 +46,8 @@ const main = useMainStore()
       <div class="line"></div>
     </div>
     <div class="nav-item">
-      <span v-show="main.theme === 'dark'" @click="main.theme = 'light'">亮</span>
-      <span v-show="main.theme === 'light'" @click="main.theme = 'dark'">暗</span>
+      <span v-show="main.theme === 'dark'" @click="switchTheme('light')">亮</span>
+      <span v-show="main.theme === 'light'" @click="switchTheme('dark')">暗</span>
     </div>
   </div>
 </div>

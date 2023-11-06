@@ -9,5 +9,12 @@ export const useMainStore = defineStore('main', {
     },
     // 会缓存 只会调用一次
     getters: {},
-    actions: {}
-})
+    actions: {},
+    persist: {
+        enabled: true,
+        strategies: [{
+            key: "theme",
+            storage: localStorage,
+        }]
+    }
+},)

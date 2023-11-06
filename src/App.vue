@@ -9,6 +9,15 @@
   padding: 0;
   margin: 0;
 }
+
+body {
+  //background-color: linear-gradient(-225deg, #231557 0%, #43107a 29%, #c92c61 100%);
+}
+
+.layout {
+  z-index: 100;
+  position: relative;
+}
 </style>
 <script setup>
 import Config from "@/components/Config.vue";
