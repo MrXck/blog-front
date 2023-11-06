@@ -25,7 +25,7 @@ watch(() => route.query, () => {
   isLoading = false
   init()
   document.documentElement.scroll({
-    top: 0,
+    top: document.documentElement.clientHeight,
     behavior: 'smooth'
   })
 })
@@ -48,7 +48,16 @@ function init() {
 
   getBlogByPage(data).then(res => {
     if (res.code === 0) {
-      blogList.push(...res.data.page.records)
+      const blogTypeList = res.data.blogTypes
+
+      for (let i = 0; i < res.data.page.records.length; i++) {
+        const data = res.data.page.records[i]
+        data.type = blogTypeList.find(item => item.id === data.typeId)
+        data.createTime = data.createTime.split('T')[0]
+        data.updateTime = data.updateTime.split('T')[0]
+        blogList.push(data)
+      }
+
       if (res.data.page.records.length !== pageSize) {
         isFinished = true
       }

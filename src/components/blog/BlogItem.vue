@@ -31,21 +31,23 @@ onMounted(() => {
     index !== 0 ? 'margin-top' : ''
   ]" @click="toWithTransition({name: 'blog-detail', query: {id: data.id}, position: { x: 0, y: 0 }})">
     <div class="blog-img" v-show="!windowWidth || index % 2 === 0">
-      <img :src="data.image === null || data.image === '' ? jpg : data.image" alt="" :style="`view-transition-name: pic-${data.id};`">
+      <img :src="data.image === null || data.image === '' ? jpg : data.image" alt=""
+           :style="`view-transition-name: pic-${data.id};`">
     </div>
     <div class="blog-info">
       <div class="blog-title">{{ data.title }}</div>
       <div class="blog-detail">
-        <div class="blog-time">创建于: {{ data.create_time }}</div>
-        <div class="blog-time">更新于: {{ data.create_time }}</div>
-        <div class="blog-time">标签: xxx</div>
+        <div class="blog-time">创建于: {{ data.createTime }}</div>
+        <div class="blog-time">更新于: {{ data.updateTime }}</div>
+        <div class="blog-time">分类: {{ data.type.name }}</div>
       </div>
       <div class="blog-content">
         {{ data.content }}
       </div>
     </div>
     <div class="blog-img" :id="`blog-img-${data.id}`" v-show="windowWidth && index % 2 - 1 === 0">
-      <img :src="data.image === null || data.image === '' ? jpg : data.image" alt="" :style="`view-transition-name: pic-${data.id};`">
+      <img :src="data.image === null || data.image === '' ? jpg : data.image" alt=""
+           :style="`view-transition-name: pic-${data.id};`">
     </div>
   </div>
 </template>
@@ -103,8 +105,7 @@ onMounted(() => {
 
 .blog-img img {
   height: 100%;
-//width: 100%; transition: 0.5s all;
-  filter: var(--filter);
+//width: 100%; transition: 0.5s all; filter: var(--filter);
   object-fit: cover;
 }
 
