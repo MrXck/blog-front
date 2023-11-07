@@ -18,6 +18,18 @@ body {
   z-index: 100;
   position: relative;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #49b1f5;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 </style>
 <script setup>
 import Config from "@/components/Config.vue";

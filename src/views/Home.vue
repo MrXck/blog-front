@@ -16,7 +16,7 @@ import BlogItems from "@/components/blog/BlogItems.vue";
 <style scoped>
 .background {
   background: url("@/assets/1.jpg") no-repeat bottom / cover;
-  width: calc(100vw - 17px);
+  width: calc(100vw - 5px);
   height: 100vh;
   max-height: 100vh;
   max-width: 100vw;
