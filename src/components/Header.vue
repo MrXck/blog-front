@@ -5,6 +5,7 @@ import {onMounted, ref} from "vue";
 
 const main = useMainStore()
 const searchModal = ref(false)
+const keyword = ref('')
 
 function switchTheme(theme) {
   if (theme === 'light') {
@@ -23,6 +24,12 @@ function showSearchDialog() {
 function closeSearchModal() {
   searchModal.value = false
   document.documentElement.style.overflow = ''
+}
+
+function search() {
+  if (keyword.value === '') return
+  to({name: 'home', query: {'keyword': keyword.value}})
+  closeSearchModal()
 }
 
 onMounted(() => {
@@ -69,11 +76,11 @@ onMounted(() => {
     </div>
     <div class="search-dialog-body">
       <div class="search-dialog-input">
-        <input type="text" placeholder="请输入标题">
+        <input type="text" v-model="keyword" placeholder="请输入标题" @keydown.enter="search">
       </div>
     </div>
     <div class="search-dialog-footer">
-      <div class="search-dialog-footer-button">搜索</div>
+      <div class="search-dialog-footer-button" @click="search">搜索</div>
     </div>
   </div>
 </div>

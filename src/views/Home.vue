@@ -16,7 +16,7 @@ import BlogItems from "@/components/blog/BlogItems.vue";
 <style scoped>
 .background {
   background: url("@/assets/1.jpg") no-repeat bottom / cover;
-  width: calc(100vw - 5px);
+  width: 100%;
   height: 100vh;
   max-height: 100vh;
   max-width: 100vw;
@@ -25,6 +25,8 @@ import BlogItems from "@/components/blog/BlogItems.vue";
   justify-content: center;
   transition: .5s height;
   filter: var(--filter);
+  z-index: 888;
+  position: relative;
 }
 
 .text {

@@ -46,6 +46,10 @@ function init() {
     data.typeId = route.query.id
   }
 
+  if (route.query.keyword !== null && route.query.keyword !== undefined && route.query.keyword !== '') {
+    data.keyword = route.query.keyword
+  }
+
   getBlogByPage(data).then(res => {
     if (res.code === 0) {
       const blogTypeList = res.data.blogTypes
