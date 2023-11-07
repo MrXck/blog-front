@@ -23,7 +23,7 @@ onMounted(() => {
   <div class="classification-list">
     <div class="classification-header">
       <div class="classification-header-title">分类</div>
-      <div class="classification-header-right">&gt;</div>
+      <div class="classification-header-right" @click="to({name: 'categories'})">&gt;</div>
     </div>
     <div class="classification-body">
       <div class="classification-body-item" @click="to({name: 'home', query: {id: item.id}})" v-for="(item, index) in list">

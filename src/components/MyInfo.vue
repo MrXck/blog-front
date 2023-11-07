@@ -1,26 +1,72 @@
 <script setup>
-
 import jpg from "@/assets/1.jpg";
+import {onMounted, ref} from "vue";
+import {getBlogCount} from "@/api/blogApi";
+import {getBlogTypeCount} from "@/api/blogTypeApi";
+import {getAdminInfo} from "@/api/adminApi";
+import {to} from "@/utils/routerUtils";
+
+const info = ref({
+  username: 'Xck',
+  image: '',
+  blogNum: 0,
+  blogTypeNum: 0
+})
+
+function blogCount() {
+  getBlogCount().then(res => {
+    if (res.code === 0) {
+      info.value.blogNum = res.data
+    }
+  })
+}
+
+function blogTypeCount() {
+  getBlogTypeCount().then(res => {
+    if (res.code === 0) {
+      info.value.blogTypeNum = res.data
+    }
+  })
+}
+
+function getInfo() {
+  getAdminInfo().then(res => {
+    if (res.code === 0) {
+      info.value.image = res.data.admin.image
+      info.value.username = res.data.admin.username
+    }
+  })
+}
+
+function init() {
+  getInfo()
+  blogCount()
+  blogTypeCount()
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <template>
   <div class="myself-info">
     <div class="avatar">
-      <img :src="jpg" alt="">
+      <img :src="info.image !== undefined && info.image !== null && info.image !== '' ? info.image : jpg" alt="">
     </div>
-    <div class="myself-name">Xck</div>
+    <div class="myself-name">{{info.username}}</div>
     <div class="info">
-      <div class="num">
+      <div class="num" @click="to({name: 'home'})">
         <div class="num-title">文章</div>
-        <div class="number">22</div>
+        <div class="number">{{info.blogNum}}</div>
       </div>
-      <div class="num">
-        <div class="num-title">标签</div>
-        <div class="number">22</div>
-      </div>
-      <div class="num">
+<!--      <div class="num">-->
+<!--        <div class="num-title">标签</div>-->
+<!--        <div class="number">22</div>-->
+<!--      </div>-->
+      <div class="num" @click="to({name: 'categories'})">
         <div class="num-title">分类</div>
-        <div class="number">22</div>
+        <div class="number">{{info.blogTypeNum}}</div>
       </div>
     </div>
     <div class="elsewhere">
@@ -80,7 +126,13 @@ import jpg from "@/assets/1.jpg";
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1
+  flex: 1;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.num:hover {
+  color: var(--active-font-color);
 }
 
 .number {

@@ -23,7 +23,7 @@ onMounted(() => {
 <div class="archives-list">
   <div class="archives-header">
     <div class="archives-header-title">归档</div>
-    <div class="archives-header-right">&gt;</div>
+    <div class="archives-header-right" @click="to({name: 'archives'})">&gt;</div>
   </div>
   <div class="archives-body">
     <div class="archives-body-item" @click="to({name: 'archives', query: {time: item.date.replace('年', '-').replace('月', '')}})" v-for="(item, index) in list">

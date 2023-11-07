@@ -61,19 +61,19 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     // loadingBar.start()
-    if (to.path !== '/login' && to.path !== '/register') {
-        let token = localStorage.getItem('token')
-        if (token !== null && token !== undefined && token !== '') {
-        } else {
-            // notification.error({title: '通知', content: '请登录', duration: 5000})
-            router.push({
-                name: 'login',
-                query: {
-                    to: to.path
-                }
-            })
-        }
-    }
+    // if (to.path !== '/login' && to.path !== '/register') {
+    //     let token = localStorage.getItem('token')
+    //     if (token !== null && token !== undefined && token !== '') {
+    //     } else {
+    //         // notification.error({title: '通知', content: '请登录', duration: 5000})
+    //         router.push({
+    //             name: 'login',
+    //             query: {
+    //                 to: to.path
+    //             }
+    //         })
+    //     }
+    // }
     // if (document.startViewTransition && from.name === 'blog-detail' && to.name === 'home') {
     //     // document.documentElement.style.viewTransitionName = `pic-${from.query.id}`
     //     document.startViewTransition(() => {

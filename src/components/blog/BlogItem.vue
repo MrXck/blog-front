@@ -1,6 +1,6 @@
 <script setup>
 import jpg from '@/assets/1.jpg'
-import {toWithTransition} from "@/utils/routerUtils";
+import {to, toWithTransition} from "@/utils/routerUtils";
 import {computed, onMounted, ref} from "vue";
 
 const {data, index} = defineProps({
@@ -39,7 +39,7 @@ onMounted(() => {
       <div class="blog-detail">
         <div class="blog-time">创建于: {{ data.createTime }}</div>
         <div class="blog-time">更新于: {{ data.updateTime }}</div>
-        <div class="blog-time">分类: {{ data.type.name }}</div>
+        <div class="blog-time hover" @click.prevent.stop="to({name: 'home', query: {id: data.type.id}})">分类: {{ data.type.name }}</div>
       </div>
       <div class="blog-content">
         {{ data.content }}
@@ -165,5 +165,14 @@ onMounted(() => {
 .blog-time {
   margin-right: 10px;
   color: rgb(134, 134, 134);
+}
+
+.hover {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.hover:hover {
+  color: var(--active-font-color);
 }
 </style>
