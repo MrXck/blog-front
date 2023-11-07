@@ -1,7 +1,7 @@
 <script setup>
 import jpg from '@/assets/1.jpg'
 import {to, toWithTransition} from "@/utils/routerUtils";
-import {computed, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 
 const {data, index} = defineProps({
   data: {
@@ -16,13 +16,17 @@ const {data, index} = defineProps({
 
 let windowWidth = ref(window.innerWidth > 768)
 
+function resize(e) {
+  windowWidth.value = window.innerWidth > 768
+}
 
 onMounted(() => {
-  window.addEventListener('resize', (e) => {
-    windowWidth.value = window.innerWidth > 768
-  })
+  window.addEventListener('resize', resize)
 })
 
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resize)
+})
 </script>
 
 <template>
