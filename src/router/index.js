@@ -27,14 +27,6 @@ const routes = [
                 component: () => import('../views/blog/Detail'),
             },
             {
-                path: 'blog-edit',
-                name: 'blog-edit',
-                meta: {
-                    title: '博客编辑'
-                },
-                component: () => import('../views/blog/UpdateOrAdd'),
-            },
-            {
                 path: 'archives',
                 name: 'archives',
                 meta: {
