@@ -34,6 +34,7 @@ const h = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
 const route = useRoute()
 const id = route.query.id
 const viewer = ref(null)
+let timer = null
 
 
 function init() {
@@ -92,6 +93,39 @@ function setTitleId() {
     }
   }
   getCataLogData()
+
+  addCopyButton()
+
+}
+
+function addCopyButton() {
+  const codes = document.querySelectorAll("pre code")
+
+  for (let i = 0; i < codes.length; i++) {
+    const code = codes[i]
+    code.id = `code-${i}`
+
+    const pre = code.parentNode
+    pre.style.position = 'relative'
+    const button = document.createElement('div')
+    button.classList.add('copy')
+    button.id = `copy-${i}`
+
+    button.innerText = 'copy'
+    button.onclick = e => {
+      navigator.clipboard.writeText(document.querySelector(`#code-${e.target.id.split('-')[1]}`).innerText).then(() => {
+        e.target.innerText = '复制成功'
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          e.target.innerText = 'copy'
+        }, 3000)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
+    pre.appendChild(button)
+  }
 }
 
 onMounted(() => {
@@ -142,13 +176,13 @@ onMounted(() => {
   }
 
   .myself {
-    width: 100%!important;
-    padding-left: 0!important;
+    width: 100% !important;
+    padding-left: 0 !important;
     margin-top: 20px;
   }
 
   .blog {
-    width: 100%!important;
+    width: 100% !important;
   }
 }
 
@@ -260,7 +294,7 @@ onMounted(() => {
 }
 
 :deep(.medium-zoom-image--opened) {
-  position: fixed!important;
-  z-index: 9999!important;
+  position: fixed !important;
+  z-index: 9999 !important;
 }
 </style>
