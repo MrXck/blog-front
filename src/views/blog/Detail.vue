@@ -114,15 +114,31 @@ function addCopyButton() {
 
     button.innerText = 'copy'
     button.onclick = e => {
-      navigator.clipboard.writeText(document.querySelector(`#code-${e.target.id.split('-')[1]}`).innerText).then(() => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(document.querySelector(`#code-${e.target.id.split('-')[1]}`).innerText).then(() => {
+          e.target.innerText = '复制成功'
+          clearTimeout(timer)
+          timer = setTimeout(() => {
+            e.target.innerText = 'copy'
+          }, 3000)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        const area = document.createElement('textarea')
+        area.style.position = 'fixed'
+        area.style.zIndex = '-1'
+        document.body.appendChild(area)
+        area.value = document.querySelector(`#code-${e.target.id.split('-')[1]}`).innerText
+        area.select()
+        document.execCommand('copy')
+        document.body.removeChild(area)
         e.target.innerText = '复制成功'
         clearTimeout(timer)
         timer = setTimeout(() => {
           e.target.innerText = 'copy'
         }, 3000)
-      }).catch(err => {
-        console.log(err)
-      })
+      }
     }
 
     pre.appendChild(button)
