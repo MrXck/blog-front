@@ -176,7 +176,7 @@ onMounted(() => {
 }
 
 .content {
-  z-index: 999;
+  z-index: 888;
   position: relative;
 }
 
@@ -253,5 +253,14 @@ onMounted(() => {
   padding-bottom: 12px;
   margin-top: 35px;
   margin-bottom: 10px;
+}
+
+:deep(.medium-zoom-image) {
+  max-width: 100%;
+}
+
+:deep(.medium-zoom-image--opened) {
+  position: fixed!important;
+  z-index: 9999!important;
 }
 </style>

@@ -10,10 +10,6 @@
   margin: 0;
 }
 
-body {
-  //background-color: linear-gradient(-225deg, #231557 0%, #43107a 29%, #c92c61 100%);
-}
-
 .layout {
   z-index: 100;
   position: relative;
@@ -29,6 +25,13 @@ body {
 }
 ::-webkit-scrollbar-track {
   background-color: transparent;
+}
+
+.medium-zoom-image {
+  z-index: 999;
+}
+.medium-zoom-overlay {
+  z-index: 998;
 }
 </style>
 <script setup>
