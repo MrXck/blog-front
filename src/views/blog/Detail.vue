@@ -43,6 +43,7 @@ function init() {
       title.value = res.data.blog.title
       content.value = res.data.blog.content
       image.value = res.data.blog.image
+      document.querySelector('title').innerText = `${res.data.blog.title} - 博客详情`
       setTimeout(() => {
         setTitleId()
       }, 1000)
